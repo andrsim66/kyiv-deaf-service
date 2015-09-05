@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.smartcity.kyivdeafservice.app.R;
 import com.smartcity.kyivdeafservice.app.customViews.ScrimInsetsFrameLayout;
 import com.smartcity.kyivdeafservice.app.fragments.ColorFragment;
+import com.smartcity.kyivdeafservice.app.fragments.EmergencyFragment;
 import com.smartcity.kyivdeafservice.app.managers.ManagerTypeface;
 import com.smartcity.kyivdeafservice.app.utils.UtilsDevice;
 import com.smartcity.kyivdeafservice.app.utils.UtilsMiscellaneous;
@@ -259,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.nd_fl_emergency:
                 view.setSelected(true);
-                showColorFragment();
+                showEmergencyFragment();
                 break;
 
             case R.id.nd_fl_taxi:
@@ -290,6 +291,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity_content_frame, ColorFragment.newInstance(bundle))
+                .commit();
+    }
+
+    private void showEmergencyFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.nav_drawer_emergency_numbers));
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_content_frame, EmergencyFragment.newInstance())
                 .commit();
     }
 }
