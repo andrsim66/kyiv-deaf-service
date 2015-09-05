@@ -52,4 +52,8 @@
     <string name="order">Замовити</string>
     <string name="problem">Опишіть проблему</string>
 
+    <!--News Fragment-->
+    <string name="date">Дата:</string>
+    <string name="time">Час:</string>
+
 </resources>
