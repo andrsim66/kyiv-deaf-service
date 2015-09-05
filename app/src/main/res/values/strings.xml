@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KyivDeafService</string>
+    <string name="app_name">Kyiv Deaf Service</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -31,5 +31,12 @@
     <!-- Typeface names -->
     <string name="typeface_roboto_regular">Roboto-Regular</string>
     <string name="typeface_roboto_medium">Roboto-Medium</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="wrong_username_id">Username is not valid</string>
+    <string name="join_session">Join Session</string>
+    <string name="title_activity_dispatch">DispatchActivity</string>
+
+    <string name="loading">Завантаження...</string>
 
 </resources>
