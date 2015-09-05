@@ -27,57 +27,54 @@ import com.smartcity.kyivdeafservice.app.utils.UtilsMiscellaneous;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private final static double sNAVIGATION_DRAWER_ACCOUNT_SECTION_ASPECT_RATIO = 9d / 16d;
 
+    private Toolbar mToolbar;
+
     private DrawerLayout mDrawerLayout;
-    private FrameLayout mFrameLayout_AccountView;
-    private LinearLayout mNavDrawerEntriesRootView;
+    private FrameLayout mFlAccountView;
+    private LinearLayout mLlRootView;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
-    private FrameLayout mFrameLayout_Home, mFrameLayout_Explore, mFrameLayout_HelpAndFeedback,
-            mFrameLayout_About;
-    private TextView mTextView_AccountDisplayName, mTextView_AccountEmail;
-    private TextView mTextView_Home, mTextView_Explore, mTextView_HelpAndFeedback, mTextView_About;
+
+    private FrameLayout mFlCalls;
+    private FrameLayout mFlInterpreter;
+    private FrameLayout mFlNews;
+    private FrameLayout mFlJkh;
+    private FrameLayout mFlEmergency;
+    private FrameLayout mFlTaxi;
+    private FrameLayout mFlSettings;
+    private FrameLayout mFlAbout;
+
+    private TextView mTvAccountDisplayName;
+    private TextView mTvCalls;
+    private TextView mTvInterpreter;
+    private TextView mTvNews;
+    private TextView mTvJkh;
+    private TextView mTvEmergency;
+    private TextView mTvTaxi;
+    private TextView mTvSettings;
+    private TextView mTvAbout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupToolbar();
+        initViews();
+        setTypefaces();
+
         initialise();
+    }
+
+    private void setupToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
     }
 
     /**
      * Bind, create and set up the resources
      */
     private void initialise() {
-        // Toolbar
-        final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
- 
-        // Layout resources
-        mFrameLayout_AccountView = (FrameLayout) findViewById(R.id.navigation_drawer_account_view);
-        mNavDrawerEntriesRootView = (LinearLayout) findViewById(R.id.navigation_drawer_linearLayout_entries_root_view);
-
-        mFrameLayout_Home = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_home);
-        mFrameLayout_Explore = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_explore);
-        mFrameLayout_HelpAndFeedback = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_help_and_feedback);
-        mFrameLayout_About = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_about);
-
-        mTextView_AccountDisplayName = (TextView) findViewById(R.id.navigation_drawer_account_information_display_name);
-        mTextView_AccountEmail = (TextView) findViewById(R.id.navigation_drawer_account_information_email);
-
-        mTextView_Home = (TextView) findViewById(R.id.navigation_drawer_items_textView_home);
-        mTextView_Explore = (TextView) findViewById(R.id.navigation_drawer_items_textView_explore);
-        mTextView_HelpAndFeedback = (TextView) findViewById(R.id.navigation_drawer_items_textView_help_and_feedback);
-        mTextView_About = (TextView) findViewById(R.id.navigation_drawer_items_textView_about);
-
-        // Typefaces
-        mTextView_AccountDisplayName.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-        mTextView_AccountEmail.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_regular));
-        mTextView_Home.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-        mTextView_Explore.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-        mTextView_HelpAndFeedback.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-        mTextView_About.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-
         // Navigation Drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_DrawerLayout);
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primaryDark));
@@ -116,19 +113,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mScrimInsetsFrameLayout.getLayoutParams().width = Math.min(possibleMinDrawerWidth, maxDrawerWidth);
 
         // Account section height
-        mFrameLayout_AccountView.getLayoutParams().height = (int) (mScrimInsetsFrameLayout.getLayoutParams().width
+        mFlAccountView.getLayoutParams().height = (int) (mScrimInsetsFrameLayout.getLayoutParams().width
                 * sNAVIGATION_DRAWER_ACCOUNT_SECTION_ASPECT_RATIO);
 
-        // Nav Drawer item click listener
-        mFrameLayout_AccountView.setOnClickListener(this);
-        mFrameLayout_Home.setOnClickListener(this);
-        mFrameLayout_Explore.setOnClickListener(this);
-        mFrameLayout_HelpAndFeedback.setOnClickListener(this);
-        mFrameLayout_About.setOnClickListener(this);
+        setListeners();
 
         // Set the first item as selected for the first time
         getSupportActionBar().setTitle(R.string.toolbar_title_home);
-        mFrameLayout_Home.setSelected(true);
+        mFlCalls.setSelected(true);
 
         // Create the first fragment to be shown
         Bundle bundle = new Bundle();
@@ -140,67 +132,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 
+    private void initViews() {
+        // Layout resources
+        mFlAccountView = (FrameLayout) findViewById(R.id.nd_fl_account_view);
+        mLlRootView = (LinearLayout) findViewById(R.id.nd_ll_root_view);
+
+        mFlCalls = (FrameLayout) findViewById(R.id.nd_fl_calls);
+        mFlInterpreter = (FrameLayout) findViewById(R.id.nd_fl_interpreter);
+        mFlNews = (FrameLayout) findViewById(R.id.nd_fl_news);
+        mFlJkh = (FrameLayout) findViewById(R.id.nd_fl_jkh);
+        mFlEmergency = (FrameLayout) findViewById(R.id.nd_fl_emergency);
+        mFlTaxi = (FrameLayout) findViewById(R.id.nd_fl_taxi);
+        mFlSettings = (FrameLayout) findViewById(R.id.nd_fl_settings);
+        mFlAbout = (FrameLayout) findViewById(R.id.nd_fl_about);
+
+        mTvAccountDisplayName = (TextView) findViewById(R.id.nd_tv_account_name);
+
+        mTvCalls = (TextView) findViewById(R.id.nd_tv_calls);
+        mTvInterpreter = (TextView) findViewById(R.id.nd_tv_interpreter);
+        mTvNews = (TextView) findViewById(R.id.nd_tv_news);
+        mTvJkh = (TextView) findViewById(R.id.nd_tv_jkh);
+        mTvEmergency = (TextView) findViewById(R.id.nd_tv_emergency);
+        mTvTaxi = (TextView) findViewById(R.id.nd_tv_taxi);
+        mTvSettings = (TextView) findViewById(R.id.nd_tv_settings);
+        mTvAbout = (TextView) findViewById(R.id.nd_tv_about);
+    }
+
+    private void setTypefaces() {
+        // Typefaces
+        mTvAccountDisplayName.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvCalls.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvInterpreter.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvNews.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvJkh.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvEmergency.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvTaxi.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvSettings.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+        mTvAbout.setTypeface(
+                ManagerTypeface.getTypeface(MainActivity.this, R.string.typeface_roboto_medium));
+    }
+
+    private void setListeners() {
+        // Nav Drawer item click listener
+        mFlAccountView.setOnClickListener(this);
+        mFlCalls.setOnClickListener(this);
+        mFlInterpreter.setOnClickListener(this);
+        mFlNews.setOnClickListener(this);
+        mFlJkh.setOnClickListener(this);
+        mFlEmergency.setOnClickListener(this);
+        mFlTaxi.setOnClickListener(this);
+        mFlSettings.setOnClickListener(this);
+        mFlAbout.setOnClickListener(this);
+    }
+
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.navigation_drawer_account_view) {
+        if (view.getId() == R.id.nd_fl_account_view) {
             mDrawerLayout.closeDrawer(Gravity.LEFT);
 
             // If the user is signed in, go to the profile, otherwise show sign up / sign in
         } else {
             if (!view.isSelected()) {
                 onRowPressed((FrameLayout) view);
-
-                switch (view.getId()) {
-                    case R.id.navigation_drawer_items_list_linearLayout_home: {
-                        if (getSupportActionBar() != null) {
-                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_home));
-                        }
-
-
-                        view.setSelected(true);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt(ColorFragment.sARGUMENT_COLOR, R.color.blue_500);
-
-                        // Insert the fragment by replacing any existing fragment
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_activity_content_frame, ColorFragment.newInstance(bundle))
-                                .commit();
-                        break;
-                    }
-
-                    case R.id.navigation_drawer_items_list_linearLayout_explore: {
-                        if (getSupportActionBar() != null) {
-                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_explore));
-                        }
-
-                        view.setSelected(true);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt(ColorFragment.sARGUMENT_COLOR, R.color.amber_500);
-
-                        // Insert the fragment by replacing any existing fragment
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_activity_content_frame, ColorFragment.newInstance(bundle))
-                                .commit();
-                        break;
-                    }
-
-                    case R.id.navigation_drawer_items_list_linearLayout_help_and_feedback:
-                        // Start intent to send an email
-                        startActivity(new Intent(view.getContext(), OtherActivity.class));
-                        break;
-
-                    case R.id.navigation_drawer_items_list_linearLayout_about:
-                        // Show about activity
-                        startActivity(new Intent(view.getContext(), OtherActivity.class));
-                        break;
-
-                    default:
-                        break;
-                }
+                onRowSelected(view);
             } else {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
@@ -214,8 +216,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void onRowPressed(FrameLayout pressedRow) {
         if (pressedRow.getTag() != getResources().getString(R.string.tag_nav_drawer_special_entry)) {
-            for (int i = 0; i < mNavDrawerEntriesRootView.getChildCount(); i++) {
-                View currentView = mNavDrawerEntriesRootView.getChildAt(i);
+            for (int i = 0; i < mLlRootView.getChildCount(); i++) {
+                View currentView = mLlRootView.getChildAt(i);
 
                 boolean currentViewIsMainEntry = currentView.getTag() ==
                         getResources().getString(R.string.tag_nav_drawer_main_entry);
@@ -231,5 +233,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    private void onRowSelected(View view) {
+        switch (view.getId()) {
+            case R.id.nd_fl_calls:
+                view.setSelected(true);
+                showColorFragment();
+                break;
+
+            case R.id.nd_fl_interpreter:
+                view.setSelected(true);
+                showColorFragment();
+                break;
+
+            case R.id.nd_fl_news:
+                view.setSelected(true);
+                showColorFragment();
+                break;
+
+            case R.id.nd_fl_jkh:
+                view.setSelected(true);
+                showColorFragment();
+                break;
+
+            case R.id.nd_fl_emergency:
+                view.setSelected(true);
+                showColorFragment();
+                break;
+
+            case R.id.nd_fl_taxi:
+                view.setSelected(true);
+                showColorFragment();
+                break;
+
+            case R.id.nd_fl_settings:
+                // Start intent to send an email
+                startActivity(new Intent(view.getContext(), OtherActivity.class));
+                break;
+
+            case R.id.nd_fl_about:
+                // Show about activity
+                startActivity(new Intent(view.getContext(), OtherActivity.class));
+                break;
+        }
+    }
+
+    private void showColorFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.toolbar_title_explore));
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(ColorFragment.sARGUMENT_COLOR, R.color.amber_500);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_content_frame, ColorFragment.newInstance(bundle))
+                .commit();
     }
 }

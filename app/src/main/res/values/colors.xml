@@ -7,6 +7,8 @@
     <color name="primaryDark">@color/green_700</color>
     <color name="textPrimary">@color/text_white_text_icons_100</color>
 
+    <color name="light_grey">#EEEEEE</color>
+
     <!-- Text -->
     <!-- Text -->
     <color name="text_black_100">#000000</color>
