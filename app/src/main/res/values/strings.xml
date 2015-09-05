@@ -39,4 +39,17 @@
 
     <string name="loading">Завантаження...</string>
 
+    <!--Home Services-->
+    <string name="electricity">Електрик</string>
+    <string name="plumber">Сантехнік</string>
+    <string name="carpenter">Столяр</string>
+    <string name="other">Інше</string>
+
+    <!--Service Preferences-->
+    <string name="address">Адреса</string>
+    <string name="delivery_time">На котру годину</string>
+    <string name="attach_pic">Прикріпити фото</string>
+    <string name="order">Замовити</string>
+    <string name="problem">Опишіть проблему</string>
+
 </resources>
