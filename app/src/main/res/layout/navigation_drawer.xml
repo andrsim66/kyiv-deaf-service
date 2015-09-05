@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:id="@+id/navigation_drawer_account_view"
+            android:id="@+id/nd_fl_account_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_drawer_account_section_default_height"
             android:clickable="true"
@@ -53,7 +53,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/navigation_drawer_account_information_display_name"
+                        android:id="@+id/nd_tv_account_name"
                         style="@style/NavDrawerAccountInfoText"
                         android:text="@string/tools_text_account_information_username"
                         tools:fontFamily="sans-serif-medium" />
@@ -62,7 +62,8 @@
                         android:id="@+id/navigation_drawer_account_information_email"
                         style="@style/NavDrawerAccountInfoText"
                         android:text="@string/tools_text_account_information_email"
-                        tools:fontFamily="sans-serif" />
+                        tools:fontFamily="sans-serif"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -87,24 +88,24 @@
             android:paddingTop="@dimen/nav_drawer_vertical_spacing_listing">
 
             <LinearLayout
-                android:id="@+id/navigation_drawer_linearLayout_entries_root_view"
+                android:id="@+id/nd_ll_root_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_home"
+                    android:id="@+id/nd_fl_calls"
                     style="@style/NavDrawerRowLayout.Main">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_home"
+                        android:id="@+id/nd_iv_calls"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_home_white_24dp"
                         tools:ignore="ContentDescription"
                         tools:tint="@color/nav_drawer_item_icon_selected" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_home"
+                        android:id="@+id/nd_tv_calls"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_calls"
                         tools:fontFamily="sans-serif-medium"
@@ -113,17 +114,17 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_explore"
+                    android:id="@+id/nd_fl_interpreter"
                     style="@style/NavDrawerRowLayout.Main">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_explore"
+                        android:id="@+id/nd_iv_interpreter"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_schedule_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_explore"
+                        android:id="@+id/nd_tv_interpreter"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_interpreter"
                         tools:fontFamily="sans-serif-medium" />
@@ -131,17 +132,17 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_catalogue"
+                    android:id="@+id/nd_fl_news"
                     style="@style/NavDrawerRowLayout.Main">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_catalogue"
+                        android:id="@+id/nd_iv_news"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_theaters_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_catalogue"
+                        android:id="@+id/nd_tv_news"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_news"
                         tools:fontFamily="sans-serif-medium" />
@@ -149,17 +150,17 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_lists"
+                    android:id="@+id/nd_fl_jkh"
                     style="@style/NavDrawerRowLayout.Main">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_lists"
+                        android:id="@+id/nd_iv_jkh"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_list_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_lists"
+                        android:id="@+id/nd_tv_jkh"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_jkh"
                         tools:fontFamily="sans-serif-medium" />
@@ -167,17 +168,17 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_top_50"
+                    android:id="@+id/nd_fl_emergency"
                     style="@style/NavDrawerRowLayout.Main">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_top_50"
+                        android:id="@+id/nd_iv_emergency"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_grade_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_top_50"
+                        android:id="@+id/nd_tv_emergency"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_emergency_numbers"
                         tools:fontFamily="sans-serif-medium" />
@@ -185,17 +186,17 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_news"
+                    android:id="@+id/nd_fl_taxi"
                     style="@style/NavDrawerRowLayout.Main">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_news"
+                        android:id="@+id/nd_iv_taxi"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_explore_white_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_news"
+                        android:id="@+id/nd_tv_taxi"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_taxi"
                         tools:fontFamily="sans-serif-medium" />
@@ -205,17 +206,17 @@
                 <include layout="@layout/navigation_drawer_divider" />
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_settings"
+                    android:id="@+id/nd_fl_settings"
                     style="@style/NavDrawerRowLayout.Secondary">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_settings"
+                        android:id="@+id/nd_iv_settings"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_settings_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_settings"
+                        android:id="@+id/nd_tv_settings"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_settings"
                         tools:fontFamily="sans-serif-medium" />
@@ -223,17 +224,17 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_about"
+                    android:id="@+id/nd_fl_about"
                     style="@style/NavDrawerRowLayout.Secondary">
 
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_about"
+                        android:id="@+id/nd_iv_about"
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_info_white_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/navigation_drawer_items_textView_about"
+                        android:id="@+id/nd_tv_about"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_about"
                         tools:fontFamily="sans-serif-medium" />
