@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.smartcity.kyivdeafservice.app.customViews.ScrimInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_navigation_drawer_rootLayout"
+    style="@style/ScrimInsetsLayout"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/navigation_drawer_account_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_drawer_account_section_default_height"
+            android:clickable="true"
+            android:foreground="?selectableItemBackground"
+            tools:layout_height="@dimen/navigation_drawer_account_section_default_height">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="@color/black_alpha_50">
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/navigation_drawer_user_account_picture_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/image_nav_drawer_account_background"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/navigation_drawer_account_section"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/nav_drawer_vertical_spacing_listing"
+                android:paddingEnd="@dimen/nav_drawer_vertical_keyline_right"
+                android:paddingLeft="@dimen/nav_drawer_vertical_keyline_icon_left"
+                android:paddingRight="@dimen/nav_drawer_vertical_keyline_right"
+                android:paddingStart="@dimen/nav_drawer_vertical_keyline_icon_left">
+
+                <LinearLayout
+                    android:id="@+id/navigation_drawer_account_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/navigation_drawer_account_information_height"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_account_information_display_name"
+                        style="@style/NavDrawerAccountInfoText"
+                        android:text="@string/tools_text_account_information_username"
+                        tools:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_account_information_email"
+                        style="@style/NavDrawerAccountInfoText"
+                        android:text="@string/tools_text_account_information_email"
+                        tools:fontFamily="sans-serif" />
+
+                </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/navigation_drawer_user_account_picture_profile"
+                    android:layout_width="@dimen/navigation_drawer_profile_image_size"
+                    android:layout_height="@dimen/navigation_drawer_profile_image_size"
+                    android:layout_above="@id/navigation_drawer_account_information"
+                    android:src="@drawable/ic_account_circle_white_64dp" />
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <!-- Drawer items -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/navigation_drawer_background"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/nav_drawer_vertical_spacing_listing"
+            android:paddingTop="@dimen/nav_drawer_vertical_spacing_listing">
+
+            <LinearLayout
+                android:id="@+id/navigation_drawer_linearLayout_entries_root_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_home"
+                    style="@style/NavDrawerRowLayout.Main">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_home"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_home_white_24dp"
+                        tools:ignore="ContentDescription"
+                        tools:tint="@color/nav_drawer_item_icon_selected" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_home"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_calls"
+                        tools:fontFamily="sans-serif-medium"
+                        tools:textColor="@color/nav_drawer_item_text_selected" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_explore"
+                    style="@style/NavDrawerRowLayout.Main">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_explore"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_schedule_grey600_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_explore"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_interpreter"
+                        tools:fontFamily="sans-serif-medium" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_catalogue"
+                    style="@style/NavDrawerRowLayout.Main">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_catalogue"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_theaters_grey600_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_catalogue"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_news"
+                        tools:fontFamily="sans-serif-medium" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_lists"
+                    style="@style/NavDrawerRowLayout.Main">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_lists"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_list_grey600_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_lists"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_jkh"
+                        tools:fontFamily="sans-serif-medium" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_top_50"
+                    style="@style/NavDrawerRowLayout.Main">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_top_50"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_grade_grey600_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_top_50"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_emergency_numbers"
+                        tools:fontFamily="sans-serif-medium" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_news"
+                    style="@style/NavDrawerRowLayout.Main">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_news"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_explore_white_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_news"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_taxi"
+                        tools:fontFamily="sans-serif-medium" />
+
+                </FrameLayout>
+
+                <include layout="@layout/navigation_drawer_divider" />
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_settings"
+                    style="@style/NavDrawerRowLayout.Secondary">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_settings"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_settings_grey600_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_settings"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_settings"
+                        tools:fontFamily="sans-serif-medium" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_about"
+                    style="@style/NavDrawerRowLayout.Secondary">
+
+                    <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_about"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/ic_info_white_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_about"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_about"
+                        tools:fontFamily="sans-serif-medium" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</com.smartcity.kyivdeafservice.app.customViews.ScrimInsetsFrameLayout>
