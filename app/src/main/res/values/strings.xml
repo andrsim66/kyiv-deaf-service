@@ -50,10 +50,18 @@
     <string name="delivery_time">На котру годину</string>
     <string name="attach_pic">Прикріпити фото</string>
     <string name="order">Замовити</string>
+    <string name="button_jkh_request">Викликати</string>
     <string name="problem">Опишіть проблему</string>
 
     <!--News Fragment-->
     <string name="date">Дата:</string>
     <string name="time">Час:</string>
+    <string name="fire">ДСНС</string>
+    <string name="police">Поліція</string>
+    <string name="ambulance">Шв. домога</string>
+    <string name="gas_service">Служба газу</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

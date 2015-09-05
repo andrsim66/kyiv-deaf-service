@@ -1,6 +1,8 @@
 package com.smartcity.kyivdeafservice.app.activities;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +17,9 @@ import android.widget.TextView;
 import com.smartcity.kyivdeafservice.app.R;
 import com.smartcity.kyivdeafservice.app.customViews.ScrimInsetsFrameLayout;
 import com.smartcity.kyivdeafservice.app.fragments.ColorFragment;
+import com.smartcity.kyivdeafservice.app.fragments.EmergencyFragment;
+import com.smartcity.kyivdeafservice.app.fragments.JkhFragment;
+import com.smartcity.kyivdeafservice.app.fragments.JkhRequestFragment;
 import com.smartcity.kyivdeafservice.app.managers.ManagerTypeface;
 import com.smartcity.kyivdeafservice.app.utils.UtilsDevice;
 import com.smartcity.kyivdeafservice.app.utils.UtilsMiscellaneous;
@@ -24,7 +29,8 @@ import com.smartcity.kyivdeafservice.app.utils.UtilsMiscellaneous;
  *
  * @author Sotti https://plus.google.com/+PabloCostaTirado/about
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        JkhFragment.OnFragmentInteractionListener {
     private final static double sNAVIGATION_DRAWER_ACCOUNT_SECTION_ASPECT_RATIO = 9d / 16d;
 
     private Toolbar mToolbar;
@@ -63,18 +69,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViews();
         setTypefaces();
 
-        initialise();
+        setupDrawer();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void setupToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
+        View mViewShadow = findViewById(R.id.vShadow);
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+            mViewShadow.setVisibility(View.GONE);
+        }
     }
 
-    /**
-     * Bind, create and set up the resources
-     */
-    private void initialise() {
+    private void setupDrawer() {
         // Navigation Drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_DrawerLayout);
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primaryDark));
@@ -254,17 +271,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.nd_fl_jkh:
                 view.setSelected(true);
-                showColorFragment();
+                showJkhFragment();
                 break;
 
             case R.id.nd_fl_emergency:
                 view.setSelected(true);
-                showColorFragment();
+                showEmergencyFragment();
                 break;
 
             case R.id.nd_fl_taxi:
                 view.setSelected(true);
-                showColorFragment();
+                showTaxi();
                 break;
 
             case R.id.nd_fl_settings:
@@ -290,6 +307,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity_content_frame, ColorFragment.newInstance(bundle))
+                .commit();
+    }
+
+    private void showJkhFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.nav_drawer_jkh));
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_content_frame, JkhFragment.newInstance())
+                .commit();
+    }
+
+    private void showEmergencyFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.nav_drawer_emergency_numbers));
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_content_frame, EmergencyFragment.newInstance())
+                .commit();
+    }
+
+    private void showTaxi() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://cabs.com.ua/"));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onJkhRequest(int id) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                        R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.main_activity_content_frame, JkhRequestFragment.newInstance(id))
+                .addToBackStack(JkhRequestFragment.class.getSimpleName())
                 .commit();
     }
 }
