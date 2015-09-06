@@ -22,4 +22,9 @@
 
     <dimen name="text_size_14">14sp</dimen>
     <dimen name="divider_height">1dp</dimen>
+
+    <dimen name="grid_item_padding">2dip</dimen>
+    <dimen name="vc_controller_height">55dip</dimen>
+    <dimen name="vc_controller_button_size">42dip</dimen>
+    <dimen name="main_margin">20dip</dimen>
 </resources>

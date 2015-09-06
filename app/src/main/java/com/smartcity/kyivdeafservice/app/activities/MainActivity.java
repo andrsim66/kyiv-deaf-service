@@ -1,5 +1,6 @@
 package com.smartcity.kyivdeafservice.app.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -14,13 +15,19 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.smartcity.kyivdeafservice.app.App;
+import com.smartcity.kyivdeafservice.app.ApplicationSettings;
 import com.smartcity.kyivdeafservice.app.R;
 import com.smartcity.kyivdeafservice.app.customViews.ScrimInsetsFrameLayout;
+import com.smartcity.kyivdeafservice.app.fragments.CallFragment;
 import com.smartcity.kyivdeafservice.app.fragments.ColorFragment;
+import com.smartcity.kyivdeafservice.app.fragments.ContactsFragment;
 import com.smartcity.kyivdeafservice.app.fragments.EmergencyFragment;
 import com.smartcity.kyivdeafservice.app.fragments.JkhFragment;
 import com.smartcity.kyivdeafservice.app.fragments.JkhRequestFragment;
+import com.smartcity.kyivdeafservice.app.fragments.LoginFragment;
 import com.smartcity.kyivdeafservice.app.managers.ManagerTypeface;
+import com.smartcity.kyivdeafservice.app.utils.Logger;
 import com.smartcity.kyivdeafservice.app.utils.UtilsDevice;
 import com.smartcity.kyivdeafservice.app.utils.UtilsMiscellaneous;
 
@@ -30,7 +37,11 @@ import com.smartcity.kyivdeafservice.app.utils.UtilsMiscellaneous;
  * @author Sotti https://plus.google.com/+PabloCostaTirado/about
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        JkhFragment.OnFragmentInteractionListener {
+        App.OperationChangeListener,
+//        LoginFragment.OnFragmentInteractionListener,
+        JkhFragment.OnFragmentInteractionListener,
+        ContactsFragment.OnFragmentInteractionListener,
+        CallFragment.OnFragmentInteractionListener {
     private final static double sNAVIGATION_DRAWER_ACCOUNT_SECTION_ASPECT_RATIO = 9d / 16d;
 
     private Toolbar mToolbar;
@@ -60,16 +71,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTvSettings;
     private TextView mTvAbout;
 
+    private ProgressDialog dialog;
+
+    private App app;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        app = (App) getApplication();
+        app.onMainActivityCreated();
+        app.addOperationChangeListener(this);
+        app.getSettings().load();
 
         setupToolbar();
         initViews();
         setTypefaces();
 
         setupDrawer();
+
+        dialog = new ProgressDialog(MainActivity.this);
+
+
     }
 
     @Override
@@ -136,17 +160,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setListeners();
 
         // Set the first item as selected for the first time
-        getSupportActionBar().setTitle(R.string.toolbar_title_home);
-        mFlCalls.setSelected(true);
+//        getSupportActionBar().setTitle(R.string.toolbar_title_home);
+//        mFlCalls.setSelected(true);
 
-        // Create the first fragment to be shown
-        Bundle bundle = new Bundle();
-        bundle.putInt(ColorFragment.sARGUMENT_COLOR, R.color.blue_500);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.main_activity_content_frame, ColorFragment.newInstance(bundle))
-                .commit();
+//        showContactsFragment();
     }
 
     private void initViews() {
@@ -256,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.nd_fl_calls:
                 view.setSelected(true);
-                showColorFragment();
+                showContactsFragment();
                 break;
 
             case R.id.nd_fl_interpreter:
@@ -310,6 +327,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 
+    private void showContactsFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.nav_drawer_calls));
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_content_frame, ContactsFragment.newInstance())
+                .commit();
+    }
+
     private void showJkhFragment() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.nav_drawer_jkh));
@@ -332,11 +360,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 
+    private void showLoginFragment() {
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setTitle(getString(R.string.nav_drawer_emergency_numbers));
+//        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_content_frame, LoginFragment.newInstance())
+                .commit();
+    }
+
     private void showTaxi() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://cabs.com.ua/"));
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+
+    private void showCallFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                        R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.main_activity_content_frame, CallFragment.newInstance("", ""))
+                .addToBackStack(JkhRequestFragment.class.getSimpleName())
+                .commit();
     }
 
     @Override
@@ -348,5 +398,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .replace(R.id.main_activity_content_frame, JkhRequestFragment.newInstance(id))
                 .addToBackStack(JkhRequestFragment.class.getSimpleName())
                 .commit();
+    }
+
+    @Override
+    public void onContactSelect(int position) {
+        if (app.isOnline()) {
+            app.join("qwerty123", app.getSettings().get(ApplicationSettings.Username));
+        } else {
+            Logger.d("you are offline");
+        }
+    }
+
+    @Override
+    public void onCallEnded() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onOperationChange(App.Operation state) {
+        switch (state) {
+            case Authorized:
+                dialog.dismiss();
+                String username = app.getSettings().get(ApplicationSettings.Username);
+                if (username != null) {
+                    app.login(username);
+                } else {
+                    showLoginFragment();
+                }
+                break;
+            case AVChatJoined:
+                dialog.dismiss();
+                showCallFragment();
+                break;
+            case Processing:
+                dialog.setMessage(getResources().getString(R.string.loading));
+                dialog.show();
+                app.onProcessingStarted();
+                break;
+            case LoggedIn:
+                dialog.dismiss();
+                mFlCalls.setSelected(true);
+                showContactsFragment();
+                break;
+        }
     }
 }

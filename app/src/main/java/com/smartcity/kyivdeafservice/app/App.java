@@ -87,7 +87,7 @@ public class App extends Application implements VideoControllerListener, LoggerL
 
             Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                 public void uncaughtException(Thread t, Throwable e) {
-                    Logger.e("UncaughtExceptionHandler threade = " + t + ", error " + e);
+                    Logger.e("UncaughtExceptionHandler threade = " + t + ", error " + e, e);
                 }
             });
 
@@ -434,14 +434,12 @@ public class App extends Application implements VideoControllerListener, LoggerL
     }
 
     public void join(final String session_id, final String displayname) {
-
         participants.clear();
 
         settings.put(ApplicationSettings.AvsSessionId, session_id);
         settings.put(ApplicationSettings.AvsSessionDisplayName, displayname);
-
         fireApplicationStateEvent(Operation.Processing, Operation.AVChatJoined, "Joining");
-
+//        sdk.getAVChat().join(session_id, displayname);
     }
 
     public void onProcessingStarted() {

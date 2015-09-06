@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.smartcity.kyivdeafservice.app.fragments.CallFragment">
+
+    <GridView
+        android:id="@+id/gv_video_panels"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fl_controls"
+        android:numColumns="1"
+        android:stretchMode="columnWidth" />
+
+    <FrameLayout
+        android:id="@+id/fl_controls"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/grey_400">
+
+        <include
+            layout="@layout/call_controll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </FrameLayout>
+
+</RelativeLayout>

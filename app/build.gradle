@@ -26,4 +26,5 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.15'
     compile 'com.balysv:material-ripple:1.0.1'
     compile files('libs/oovoosdk.jar')
+    compile files('libs/android-query-0.25.9.jar')
 }
