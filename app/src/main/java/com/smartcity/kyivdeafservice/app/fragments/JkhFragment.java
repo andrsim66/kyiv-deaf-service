@@ -96,6 +96,9 @@ public class JkhFragment extends Fragment implements View.OnClickListener {
 
     private void setupViews() {
         mRlElectricMaster.setOnClickListener(this);
+        mRlCarpenter.setOnClickListener(this);
+        mRlPlumber.setOnClickListener(this);
+        mRlOther.setOnClickListener(this);
     }
 
     @Override
