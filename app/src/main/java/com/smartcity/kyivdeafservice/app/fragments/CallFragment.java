@@ -3,13 +3,14 @@ package com.smartcity.kyivdeafservice.app.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.oovoo.core.sdk_error;
 import com.oovoo.sdk.interfaces.Device;
@@ -24,15 +25,8 @@ import com.smartcity.kyivdeafservice.app.utils.MenuList;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CallFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CallFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CallFragment extends Fragment implements App.ParticipantsListener, App.CallControllerListener, View.OnClickListener {
+public class CallFragment extends Fragment implements
+        App.ParticipantsListener, App.CallControllerListener, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,10 +42,13 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
     private GridView videoGridView;
     private VideoAdapter mAdapter;
 
-    private Button microphoneBttn;
-    private Button speakerBttn;
-    private Button cameraBttn;
-    private Button endOfCall;
+    //    private Button microphoneBttn;
+    private ImageView mIvMicMute;
+    private ImageView mIvSpeakerMute;
+    private ImageView mIvCameraMute;
+    //    private Button speakerBttn;
+//    private Button cameraBttn;
+    private RelativeLayout mRlEndCall;
     private View callbar;
     private App app;
 
@@ -72,14 +69,6 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
         }
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CallFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static CallFragment newInstance(String param1, String param2) {
         CallFragment fragment = new CallFragment();
@@ -107,13 +96,12 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_call, container, false);
+        callbar = view;
 
         app = (App) getActivity().getApplication();
 
         initViews(view);
-        initControlBar(view);
         setupViews();
-        callbar = view;
 
         ArrayList<VideoDevice> cameras = app.getVideoCameras();
         for (VideoDevice camera : cameras) {
@@ -125,7 +113,6 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
         }
 
         app.changeResolution(VideoController.ResolutionLevel.ResolutionLevelMed);
-
         app.openPreview();
 
         addParticipantVideoPanel(null, "Me");
@@ -143,91 +130,91 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
 
     private void initViews(View view) {
         videoGridView = (GridView) view.findViewById(R.id.gv_video_panels);
+        mIvMicMute = (ImageView) view.findViewById(R.id.iv_mic_mute);
+//        speakerBttn = (Button) view.findViewById(R.id.speakersButton);
+        mIvSpeakerMute = (ImageView) view.findViewById(R.id.iv_speaker_mute);
+//        cameraBttn = (Button) view.findViewById(R.id.cameraButton);
+        mIvCameraMute = (ImageView) view.findViewById(R.id.iv_camera_mute);
+        mRlEndCall = (RelativeLayout) view.findViewById(R.id.rl_end_call);
     }
 
     private void setupViews() {
         mAdapter = new VideoAdapter(getActivity(), this);
         videoGridView.setAdapter(mAdapter);
-    }
 
-    private void initControlBar(View callbar) {
-        this.callbar = callbar;
+        mIvMicMute.setOnClickListener(this);
+//        speakerBttn.setOnClickListener(this);
+        mIvSpeakerMute.setOnClickListener(this);
+        mRlEndCall.setOnClickListener(this);
 
-        microphoneBttn = (Button) callbar.findViewById(R.id.microphoneButton);
-        microphoneBttn.setOnClickListener(this);
-
-        speakerBttn = (Button) callbar.findViewById(R.id.speakersButton);
-        speakerBttn.setOnClickListener(this);
-
-        cameraBttn = (Button) callbar.findViewById(R.id.cameraButton);
-        prepareButtonMenu(cameraBttn, new MenuList() {
-            @Override
-            public void fill(View view, ContextMenu menu) {
-                try {
-                    menu.setHeaderTitle(R.string.change_camera);
-                    ArrayList<VideoDevice> cameras = app.getVideoCameras();
-                    for (VideoDevice camera : cameras) {
-                        MenuItem item = null;
-
-                        if (camera.toString().equals("FRONT")) {
-                            item = menu.add(view.getId(), CameraState.FRONT_CAMERA.getValue(), 0,
-                                    R.string.front_camera);
-                        } else if (camera.toString().equals("BACK")) {
-                            item = menu.add(view.getId(), CameraState.BACK_CAMERA.getValue(), 0,
-                                    R.string.back_camera);
-                        }
-
-                        item.setOnMenuItemClickListener(new DeviceMenuClickListener(camera) {
-                            @Override
-                            public boolean onMenuItemClick(Device camera, MenuItem item) {
-                                app.switchCamera((VideoDevice) camera);
-                                app.muteCamera(false);
-                                mAdapter.hideAvatar(null);
-                                if (item.getItemId() == CameraState.FRONT_CAMERA.getValue()) {
-                                    cameraState = CameraState.FRONT_CAMERA;
-                                } else {
-                                    cameraState = CameraState.BACK_CAMERA;
-                                }
-                                cameraBttn.setSelected(false);
-                                return true;
-                            }
-
-                        });
-                    }
-
-                    MenuItem item = menu.add(view.getId(), CameraState.MUTE_CAMERA.getValue(), 0, R.string.mute_camera);
-                    item.setOnMenuItemClickListener(new MuteCameraMenuClickListener(app) {
-
-                        @Override
-                        public boolean onMenuItemClick(boolean state, MenuItem item) {
-                            app.muteCamera(state);
-                            mAdapter.showAvatar(null);
-                            cameraState = state ? CameraState.MUTE_CAMERA : CameraState.MUTE_CAMERA;
-                            cameraBttn.setSelected(true);
-                            return true;
-                        }
-                    });
-
-                    for (int i = 0; i < menu.size(); ++i) {
-                        MenuItem mi = menu.getItem(i);
-                        if (cameraState.getValue() == mi.getItemId()) {
-                            mi.setChecked(true);
-                            break;
-                        }
-                    }
-
-                    menu.setGroupCheckable(view.getId(), true, true);
-                } catch (Exception err) {
-                    err.printStackTrace();
-                }
-            }
-        });
-
-        endOfCall = (Button) callbar.findViewById(R.id.endOfCallButton);
-        endOfCall.setOnClickListener(this);
-
+//        setupCameraButton();
         updateController();
     }
+
+//    private void setupCameraButton() {
+//        prepareButtonMenu(cameraBttn, new MenuList() {
+//            @Override
+//            public void fill(View view, ContextMenu menu) {
+//                try {
+//                    menu.setHeaderTitle(R.string.change_camera);
+//                    ArrayList<VideoDevice> cameras = app.getVideoCameras();
+//                    for (VideoDevice camera : cameras) {
+//                        MenuItem item = null;
+//
+//                        if (camera.toString().equals("FRONT")) {
+//                            item = menu.add(view.getId(), CameraState.FRONT_CAMERA.getValue(), 0,
+//                                    R.string.front_camera);
+//                        } else if (camera.toString().equals("BACK")) {
+//                            item = menu.add(view.getId(), CameraState.BACK_CAMERA.getValue(), 0,
+//                                    R.string.back_camera);
+//                        }
+//
+//                        item.setOnMenuItemClickListener(new DeviceMenuClickListener(camera) {
+//                            @Override
+//                            public boolean onMenuItemClick(Device camera, MenuItem item) {
+//                                app.switchCamera((VideoDevice) camera);
+//                                app.muteCamera(false);
+//                                mAdapter.hideAvatar(null);
+//                                if (item.getItemId() == CameraState.FRONT_CAMERA.getValue()) {
+//                                    cameraState = CameraState.FRONT_CAMERA;
+//                                } else {
+//                                    cameraState = CameraState.BACK_CAMERA;
+//                                }
+//                                cameraBttn.setSelected(false);
+//                                return true;
+//                            }
+//
+//                        });
+//                    }
+//
+//                    MenuItem item = menu.add(view.getId(), CameraState.MUTE_CAMERA.getValue(), 0, R.string.mute_camera);
+//                    item.setOnMenuItemClickListener(new MuteCameraMenuClickListener(app) {
+//
+//                        @Override
+//                        public boolean onMenuItemClick(boolean state, MenuItem item) {
+//                            app.muteCamera(state);
+//                            mAdapter.showAvatar(null);
+//                            cameraState = state ? CameraState.MUTE_CAMERA : CameraState.MUTE_CAMERA;
+//                            cameraBttn.setSelected(true);
+//                            return true;
+//                        }
+//                    });
+//
+//                    for (int i = 0; i < menu.size(); ++i) {
+//                        MenuItem mi = menu.getItem(i);
+//                        if (cameraState.getValue() == mi.getItemId()) {
+//                            mi.setChecked(true);
+//                            break;
+//                        }
+//                    }
+//
+//                    menu.setGroupCheckable(view.getId(), true, true);
+//                } catch (Exception err) {
+//                    err.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     abstract class DeviceMenuClickListener implements MenuItem.OnMenuItemClickListener {
         private Device device = null;
@@ -319,8 +306,6 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
     protected void removeParticipantVideoPanel(String userId) {
         try {
             mAdapter.removeItem(userId);
-//            disableFullScreenView();
-
         } catch (Exception err) {
             err.printStackTrace();
         }
@@ -363,10 +348,22 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
     @Override
     public void updateController() {
         try {
-            microphoneBttn.setEnabled(true);
-            speakerBttn.setEnabled(true);
-            microphoneBttn.setSelected(app.isMicMuted());
-            speakerBttn.setSelected(app.isSpeakerMuted());
+            if (app.isMicMuted()) {
+                mIvMicMute.setImageDrawable(getActivity()
+                        .getResources().getDrawable(R.drawable.ic_mic_white_48dp));
+            } else {
+                mIvMicMute.setImageDrawable(getActivity()
+                        .getResources().getDrawable(R.drawable.ic_mic_off_white_48dp));
+            }
+//            speakerBttn.setEnabled(true);
+//            speakerBttn.setSelected(app.isSpeakerMuted());
+            if (app.isSpeakerMuted()) {
+                mIvSpeakerMute.setImageDrawable(getActivity()
+                        .getResources().getDrawable(R.drawable.ic_volume_up_white_48dp));
+            } else {
+                mIvSpeakerMute.setImageDrawable(getActivity()
+                        .getResources().getDrawable(R.drawable.ic_volume_off_white_48dp));
+            }
         } catch (Exception err) {
             err.printStackTrace();
         }
@@ -382,15 +379,42 @@ public class CallFragment extends Fragment implements App.ParticipantsListener, 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.speakersButton:
-                speakerBttn.setEnabled(false);
+            case R.id.iv_speaker_mute:
+//                speakerBttn.setEnabled(false);
+                if (app.isSpeakerMuted()) {
+                    mIvSpeakerMute.setImageDrawable(getActivity()
+                            .getResources().getDrawable(R.drawable.ic_volume_up_white_48dp));
+                } else {
+                    mIvSpeakerMute.setImageDrawable(getActivity()
+                            .getResources().getDrawable(R.drawable.ic_volume_off_white_48dp));
+                }
                 app.onSpeakerClick();
                 break;
-            case R.id.microphoneButton:
-                microphoneBttn.setEnabled(false);
+            case R.id.iv_mic_mute:
+                if (app.isMicMuted()) {
+                    mIvMicMute.setImageDrawable(getActivity()
+                            .getResources().getDrawable(R.drawable.ic_mic_white_48dp));
+                } else {
+                    mIvMicMute.setImageDrawable(getActivity()
+                            .getResources().getDrawable(R.drawable.ic_mic_off_white_48dp));
+                }
                 app.onMicrophoneClick();
                 break;
-            case R.id.endOfCallButton:
+            case R.id.iv_camera_mute:
+                if (cameraState == CameraState.MUTE_CAMERA) {
+                    app.muteCamera(false);
+//                    mAdapter.showAvatar(null);
+                    mIvCameraMute.setImageDrawable(getActivity()
+                            .getResources().getDrawable(R.drawable.ic_videocam_white_48dp));
+                } else {
+                    app.muteCamera(true);
+                    mIvCameraMute.setImageDrawable(getActivity()
+                            .getResources().getDrawable(R.drawable.ic_videocam_off_white_48dp));
+                }
+                cameraState = cameraState == cameraState.MUTE_CAMERA ? cameraState.FRONT_CAMERA :
+                        cameraState.MUTE_CAMERA;
+                break;
+            case R.id.rl_end_call:
                 app.onEndOPfCall();
                 if (mListener != null)
                     mListener.onCallEnded();

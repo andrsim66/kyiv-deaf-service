@@ -102,8 +102,8 @@ public class VideoAdapter extends BaseAdapter {
         contentViewBottom = contentViewBottom == 0 ? contentViewTop : contentViewBottom;
 
         int width = getDisplaySize().x / 2;
-        int height = (getDisplaySize().y -
-                (contentViewTop + contentViewBottom)) / 2 - (v.getPaddingTop() * 4);
+        int height = (int) ((getDisplaySize().y -
+                (contentViewTop + contentViewBottom)) / 2.4) - (v.getPaddingTop() * 4);
         video.setTag(new Point(width, height));
 
         TextView displayNameTextView = (TextView) v.getTag(R.id.display_name_text_view);

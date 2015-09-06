@@ -5,46 +5,98 @@
     android:background="@color/controller_grey"
     android:orientation="vertical">
 
+
     <LinearLayout
-        android:id="@+id/devicesControlLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/vc_controller_height"
-        android:layout_centerHorizontal="true"
-        android:background="@color/controller_grey"
+        android:id="@+id/ll_av_controls"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/microphoneButton"
-            android:layout_width="@dimen/vc_controller_button_size"
-            android:layout_height="@dimen/vc_controller_button_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="2dp"
-            android:background="@drawable/microphone_selector" />
+        <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleColor="#585858"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true">
 
-        <Button
-            android:id="@+id/speakersButton"
-            android:layout_width="@dimen/vc_controller_button_size"
-            android:layout_height="@dimen/vc_controller_button_size"
-            android:layout_gravity="center_vertical"
+            <ImageView
+                android:id="@+id/iv_mic_mute"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/grey_400"
+                android:padding="8dp"
+                android:src="@drawable/ic_mic_white_48dp" />
+        </com.balysv.materialripple.MaterialRippleLayout>
 
-            android:background="@drawable/speakers_selector" />
+        <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleColor="#585858"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true">
 
-        <Button
-            android:id="@+id/cameraButton"
-            android:layout_width="@dimen/vc_controller_button_size"
-            android:layout_height="@dimen/vc_controller_button_size"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/camera_selector" />
+            <ImageView
+                android:id="@+id/iv_speaker_mute"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/grey_400"
+                android:padding="8dp"
+                android:src="@drawable/ic_volume_up_white_48dp" />
+        </com.balysv.materialripple.MaterialRippleLayout>
 
-        <Button
-            android:id="@+id/endOfCallButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/controller_hangup_selector"
-            android:cropToPadding="true"
-            android:keepScreenOn="true" />
+        <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleColor="#585858"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true">
 
+            <ImageView
+                android:id="@+id/iv_camera_mute"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/grey_400"
+                android:padding="8dp"
+                android:src="@drawable/ic_videocam_white_48dp" />
+        </com.balysv.materialripple.MaterialRippleLayout>
     </LinearLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ripple_end_call"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_below="@+id/ll_av_controls"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        app:mrl_rippleAlpha="0.2"
+        app:mrl_rippleColor="#EF9A9A"
+        app:mrl_rippleHover="true"
+        app:mrl_rippleOverlay="true">
+
+        <RelativeLayout
+            android:id="@+id/rl_end_call"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/red_700">
+
+            <ImageView
+                android:id="@+id/iv_end_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_call_end_white_48dp" />
+        </RelativeLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
 
 </RelativeLayout>
