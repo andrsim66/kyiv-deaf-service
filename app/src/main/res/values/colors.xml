@@ -59,5 +59,7 @@
     <color name="half_transparent_grey">#9FA2A2A2</color>
     <color name="controller_grey">#EAEAEA</color>
     <color name="red_700">#D32F2F</color>
+    <color name="active_status">#00E676</color>
+    <color name="not_active_status">#D32F2F</color>
 
 </resources>

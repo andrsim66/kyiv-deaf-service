@@ -27,7 +27,6 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemClic
     private ListView mLvContacts;
     private ContactsAdapter mAdapter;
     private ArrayList<Contact> mContacts;
-    private VideoPanelPreviewRect previewRect;
     private OnFragmentInteractionListener mListener;
 
     public static ContactsFragment newInstance() {
@@ -48,17 +47,6 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemClic
         initViews(view);
         addContacts();
         setupViews();
-
-//        VideoPanel panel = (VideoPanel) view.findViewById(R.id.preview_view);
-//        previewRect = (VideoPanelPreviewRect) view.findViewById(R.id.preview_rect);
-
-
-
-        String lastSessionId = app.getSettings().get("avs_session_id");
-        String lastDisplayName = app.getSettings().get("avs_session_display_name");
-
-
-//        app.bindVideoPanel(null, panel);
 
         return view;
     }

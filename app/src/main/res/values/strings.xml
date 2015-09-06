@@ -53,6 +53,9 @@
     <string name="button_jkh_request">Викликати</string>
     <string name="problem">Опишіть проблему</string>
 
+    <!--News Fragment-->
+    <string name="date">Дата:</string>
+    <string name="time">Час:</string>
     <string name="fire">ДСНС</string>
     <string name="police">Поліція</string>
     <string name="ambulance">Шв. домога</string>

@@ -27,6 +27,7 @@ import com.oovoo.sdk.interfaces.VideoControllerListener;
 import com.oovoo.sdk.interfaces.VideoDevice;
 import com.oovoo.sdk.interfaces.ooVooSdkResult;
 import com.oovoo.sdk.interfaces.ooVooSdkResultListener;
+import com.smartcity.kyivdeafservice.app.objects.Interpreter;
 import com.smartcity.kyivdeafservice.app.utils.Logger;
 
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class App extends Application implements VideoControllerListener, LoggerL
     private CallControllerListener controllerListener = null;
     private NetworkReliabilityListener networkReliabilityListener = null;
 
+    private ArrayList<Interpreter> interpreters;
 
     @Override
     public void onCreate() {
@@ -119,6 +121,13 @@ public class App extends Application implements VideoControllerListener, LoggerL
         operation_handler = new Handler();
     }
 
+    public ArrayList<Interpreter> getInterpreters() {
+        return interpreters;
+    }
+
+    public void setInterpreters(ArrayList<Interpreter> interpreters) {
+        this.interpreters = interpreters;
+    }
 
     public ApplicationSettings getSettings() {
         return settings;

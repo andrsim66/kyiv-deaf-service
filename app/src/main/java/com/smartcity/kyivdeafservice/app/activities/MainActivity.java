@@ -23,6 +23,8 @@ import com.smartcity.kyivdeafservice.app.fragments.CallFragment;
 import com.smartcity.kyivdeafservice.app.fragments.ColorFragment;
 import com.smartcity.kyivdeafservice.app.fragments.ContactsFragment;
 import com.smartcity.kyivdeafservice.app.fragments.EmergencyFragment;
+import com.smartcity.kyivdeafservice.app.fragments.InterpreterFragment;
+import com.smartcity.kyivdeafservice.app.fragments.InterpreterRequestFragment;
 import com.smartcity.kyivdeafservice.app.fragments.JkhFragment;
 import com.smartcity.kyivdeafservice.app.fragments.JkhRequestFragment;
 import com.smartcity.kyivdeafservice.app.fragments.LoginFragment;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         App.OperationChangeListener,
 //        LoginFragment.OnFragmentInteractionListener,
         JkhFragment.OnFragmentInteractionListener,
+        InterpreterFragment.OnFragmentInteractionListener,
         ContactsFragment.OnFragmentInteractionListener,
         CallFragment.OnFragmentInteractionListener {
     private final static double sNAVIGATION_DRAWER_ACCOUNT_SECTION_ASPECT_RATIO = 9d / 16d;
@@ -278,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.nd_fl_interpreter:
                 view.setSelected(true);
-                showColorFragment();
+                showInterpretersFragment();
                 break;
 
             case R.id.nd_fl_news:
@@ -335,6 +338,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity_content_frame, ContactsFragment.newInstance())
+                .commit();
+    }
+
+    private void showInterpretersFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.nav_drawer_interpreter));
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_content_frame, InterpreterFragment.newInstance())
                 .commit();
     }
 
@@ -438,8 +452,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case LoggedIn:
                 dialog.dismiss();
                 mFlCalls.setSelected(true);
+                mTvAccountDisplayName.setText(app.getSettings().get(ApplicationSettings.Username));
                 showContactsFragment();
                 break;
         }
+    }
+
+    @Override
+    public void onInterpreterSelect(int position) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                        R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.main_activity_content_frame,
+                        InterpreterRequestFragment.newInstance(position))
+                .addToBackStack(JkhRequestFragment.class.getSimpleName())
+                .commit();
     }
 }
