@@ -62,8 +62,8 @@
                         android:id="@+id/navigation_drawer_account_information_email"
                         style="@style/NavDrawerAccountInfoText"
                         android:text="@string/tools_text_account_information_email"
-                        tools:fontFamily="sans-serif"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        tools:fontFamily="sans-serif" />
 
                 </LinearLayout>
 
@@ -100,7 +100,7 @@
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
                         android:id="@+id/nd_iv_calls"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_home_white_24dp"
+                        android:src="@drawable/ic_call_grey600_24dp"
                         tools:ignore="ContentDescription"
                         tools:tint="@color/nav_drawer_item_icon_selected" />
 
@@ -120,7 +120,7 @@
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
                         android:id="@+id/nd_iv_interpreter"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_schedule_grey600_24dp"
+                        android:src="@drawable/ic_thumbs_up_down_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -138,7 +138,7 @@
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
                         android:id="@+id/nd_iv_news"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_theaters_grey600_24dp"
+                        android:src="@drawable/ic_view_quilt_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -156,7 +156,7 @@
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
                         android:id="@+id/nd_iv_jkh"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_list_grey600_24dp"
+                        android:src="@drawable/ic_home_white_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -174,7 +174,7 @@
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
                         android:id="@+id/nd_iv_emergency"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_grade_grey600_24dp"
+                        android:src="@drawable/ic_local_hospital_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -192,7 +192,7 @@
                     <com.smartcity.kyivdeafservice.app.customViews.TintOnStateImageView
                         android:id="@+id/nd_iv_taxi"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_explore_white_24dp"
+                        android:src="@drawable/ic_local_taxi_grey600_24dp"
                         tools:ignore="ContentDescription" />
 
                     <TextView
