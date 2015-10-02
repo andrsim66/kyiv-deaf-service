@@ -62,7 +62,7 @@ public class JkhFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.jkh_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_jkh, container, false);
 
         initViews(view);
         setupViews();
@@ -96,6 +96,9 @@ public class JkhFragment extends Fragment implements View.OnClickListener {
 
     private void setupViews() {
         mRlElectricMaster.setOnClickListener(this);
+        mRlCarpenter.setOnClickListener(this);
+        mRlPlumber.setOnClickListener(this);
+        mRlOther.setOnClickListener(this);
     }
 
     @Override
@@ -106,7 +109,6 @@ public class JkhFragment extends Fragment implements View.OnClickListener {
     }
 
     public interface OnFragmentInteractionListener {
-
         void onJkhRequest(int id);
     }
 }

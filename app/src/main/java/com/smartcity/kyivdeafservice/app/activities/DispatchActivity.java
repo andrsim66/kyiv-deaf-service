@@ -23,17 +23,17 @@ public class DispatchActivity extends AppCompatActivity implements App.Operation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        dialog = new ProgressDialog(DispatchActivity.this);
-//
-//        app = ((App) getApplication());
-//        app.addOperationChangeListener(this);
-//        app.getSettings().load();
-//        app.onMainActivityCreated();
+        dialog = new ProgressDialog(DispatchActivity.this);
 
-        Intent intent = new Intent(DispatchActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        app = ((App) getApplication());
+        app.addOperationChangeListener(this);
+        app.getSettings().load();
+        app.onMainActivityCreated();
+
+//        Intent intent = new Intent(DispatchActivity.this, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//        finish();
     }
 
     @Override
